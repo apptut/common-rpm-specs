@@ -4,7 +4,7 @@ Release:        3%{?dist}
 Summary:        php rpm 包
 
 License:        AGPLv3 
-Source0:        %{name}-%{version}.tar.gz
+Source0:        http://cn.php.net/distributions/%{name}-%{version}.tar.gz
 Source1:        php.ini
 
 BuildRequires:  libxml2-devel,gcc,make,openssl-devel,zlib-devel,pcre-devel,libcurl-devel >= 7.15.5
@@ -25,7 +25,7 @@ BuildRequires:  libxml2-devel,gcc,make,openssl-devel,zlib-devel,pcre-devel,libcu
     	--sysconfdir=%{_sysconfdir}/php \
 	--with-libdir=%{_lib} \
     	--with-config-file-path=%{_sysconfdir}/php \
-	--libdir=%{_libdir} \
+	--libdir=%{_libdir}/php \
 	--mandir=%{_mandir} \
 	--datadir=%{_datadir} \
     	--includedir=%{_includedir} \
@@ -75,9 +75,8 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %{_bindir}/phpdbg
 %{_bindir}/phpize
 
-%{_libdir}/build/
-%{_libdir}/extensions
-%{_includedir}/php/
+%{_includedir}/php
+%{_libdir}/php
 %{_datadir}/fpm
 
 %{_mandir}/man1
