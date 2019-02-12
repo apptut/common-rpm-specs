@@ -7,12 +7,7 @@ License:        AGPLv3
 Source0:        %{name}-%{version}.tar.gz
 Source1:        php.ini
 
-BuildRequires:  libxml2-devel
-BuildRequires:  libcurl-devel >= 7.15.5
-BuildRequires:  gcc
-BuildRequires:  make
-BuildRequires:  zlib-devel
-BuildRequires:  pcre-devel
+BuildRequires:  libxml2-devel,gcc,make,openssl-devel,zlib-devel,pcre-devel,libcurl-devel >= 7.15.5
 
 
 %description
@@ -23,13 +18,14 @@ BuildRequires:  pcre-devel
 
 
 %build
-./configure \
+%configure \
 	--prefix=%{_prefix} \
 	--bindir=%{_bindir} \
     	--sbindir=%{_sbindir} \
     	--sysconfdir=%{_sysconfdir}/php \
 	--with-libdir=%{_lib} \
     	--with-config-file-path=%{_sysconfdir}/php \
+	--libdir=%{_libdir} \
 	--mandir=%{_mandir} \
 	--datadir=%{_datadir} \
     	--includedir=%{_includedir} \
@@ -66,7 +62,6 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %{__rm} -rf $RPM_BUILD_ROOT%{_sysconfdir}/php/php-fpm.conf.default
 %{__rm} -rf $RPM_BUILD_ROOT%{_sysconfdir}/php/php-fpm.d/www.conf.default
 
-#%make_install
 
 %files
 %defattr(-,root,root)
@@ -80,7 +75,8 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %{_bindir}/phpdbg
 %{_bindir}/phpize
 
-%{_prefix}/lib/php/
+%{_libdir}/build/
+%{_libdir}/extensions
 %{_includedir}/php/
 %{_datadir}/fpm
 
