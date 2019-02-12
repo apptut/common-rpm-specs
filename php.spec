@@ -1,9 +1,10 @@
 Name:           php
 Version:        7.3.2
 Release:        3%{?dist}
-Summary:        php rpm 包
+Summary:        Php%{version} rpm package
 
 License:        AGPLv3 
+URL:		http://php.net/ChangeLog-7.php#%{version}
 Source0:        http://cn.php.net/distributions/%{name}-%{version}.tar.gz
 Source1:        php.ini
 
@@ -39,6 +40,8 @@ BuildRequires:  libxml2-devel,gcc,make,openssl-devel,zlib-devel,pcre-devel,libcu
 	--with-openssl \
 	--with-zlib \
 	--with-curl \
+	--disable-phpdbg \
+	--disable-phar \
 	--without-pear
 
 make %{?_smp_mflags}
@@ -67,20 +70,17 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %defattr(-,root,root)
 
 %{_sbindir}/php-fpm
-%{_bindir}/phar
-%{_bindir}/phar.phar
 %{_bindir}/php
 %{_bindir}/php-cgi
-%{_bindir}/php-config
-%{_bindir}/phpdbg
-%{_bindir}/phpize
 
-%{_includedir}/php
 %{_libdir}/php
 %{_datadir}/fpm
 
-%{_mandir}/man1
-%{_mandir}/man8
+%{_mandir}/man1/php-cgi.1.gz
+%{_mandir}/man1/php-config.1.gz
+%{_mandir}/man1/php.1.gz
+%{_mandir}/man1/phpize.1.gz
+%{_mandir}/man8/php-fpm.8.gz
 
 %config(noreplace) %{_sysconfdir}/php/php-fpm.conf
 %config(noreplace) %{_sysconfdir}/php/php-fpm.d/www.conf
@@ -91,6 +91,13 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %dir %{_sysconfdir}/php
 %dir %{_sysconfdir}/php/php-fpm.d
 
+# 不安装源码以及phpize扩展，如果需要使用phpize安装扩展请自行调整是否安装源码文件
+%exclude %{_bindir}/php-config
+%exclude %{_bindir}/phpize
+%exclude %{_includedir}/php
+%exclude %{_libdir}/php/build
+
+%exclude %{_libdir}/php/extensions/no-debug-non-zts-20180731/opcache.a
 
 %post
 # init systemd 配置
@@ -98,5 +105,5 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 
 
 %changelog
-* Thu Feb 7 2019 init php rpm package <liangqi000@gmail.com>
-- 7.3.2
+* Thu Feb 7 2019 init php rpm package <liangqi000@gmail.com> - %{version}-%{release}
+- opt spec config
