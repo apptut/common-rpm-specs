@@ -40,9 +40,7 @@ BuildRequires:  libxml2-devel,gcc,make,openssl-devel,zlib-devel,pcre-devel,libcu
 	--with-openssl \
 	--with-zlib \
 	--with-curl \
-	--disable-phpdbg \
-	--disable-phar \
-	--without-pear
+	--disable-phpdbg 
 
 make %{?_smp_mflags}
 
@@ -72,6 +70,11 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %{_sbindir}/php-fpm
 %{_bindir}/php
 %{_bindir}/php-cgi
+%{_bindir}/pear
+%{_bindir}/peardev
+%{_bindir}/pecl
+%{_bindir}/phar
+%{_bindir}/phar.phar
 
 %{_libdir}/php
 %{_datadir}/fpm
@@ -81,8 +84,11 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %{_mandir}/man1/php.1.gz
 %{_mandir}/man1/phpize.1.gz
 %{_mandir}/man8/php-fpm.8.gz
+%{_mandir}/man1/phar.1.gz
+%{_mandir}/man1/phar.phar.1.gz
 
 %config(noreplace) %{_sysconfdir}/php/php-fpm.conf
+%config(noreplace) %{_sysconfdir}/php/pear.conf
 %config(noreplace) %{_sysconfdir}/php/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/php/php.ini
 
@@ -90,6 +96,13 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 
 %dir %{_sysconfdir}/php
 %dir %{_sysconfdir}/php/php-fpm.d
+
+# pear files
+/.channels
+/.depdb
+/.depdblock
+/.filemap
+/.lock
 
 # 不安装源码以及phpize扩展，如果需要使用phpize安装扩展请自行调整是否安装源码文件
 %exclude %{_bindir}/php-config
