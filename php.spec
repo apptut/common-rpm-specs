@@ -14,6 +14,15 @@ BuildRequires:  libxml2-devel,gcc,make,openssl-devel,zlib-devel,pcre-devel,libcu
 %description
 基于php7官方版本制作的rpm包，该包未编译GD库，如有需要请自行安装扩展库。
 
+%package devel
+Group: Development/Libraries
+Summary: Development php package
+
+Requires: autoconf
+
+%description devel
+Development files for php
+
 %prep
 %setup -q
 
@@ -111,6 +120,17 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 %exclude %{_libdir}/php/build
 
 %exclude %{_libdir}/php/extensions/no-debug-non-zts-20180731/opcache.a
+
+%files devel
+%defattr(-,root,root)
+
+%{_bindir}/php-config
+%{_bindir}/phpize
+%{_includedir}/php
+%{_libdir}/php/build
+
+%exclude %{_libdir}/php/extensions/no-debug-non-zts-20180731/opcache.a
+
 
 %post
 # init systemd 配置
