@@ -18,7 +18,7 @@ php imagick 扩展
 
 %build
 phpize
-./configure
+./configure --with-libdir=%{_lib} --libdir=%{_libdir}
 make %{?_smp_mflags}
 
 %install
@@ -26,9 +26,9 @@ rm -rf $RPM_BUILD_ROOT
 INSTALL_ROOT=$RPM_BUILD_ROOT make install
 
 %files
-%dir %{_prefix}/include/php/ext/imagick
-%{_prefix}/include/php/ext/imagick/php_imagick_shared.h
-%{_prefix}/lib/php/extensions/no-debug-non-zts-20180731/imagick.so
+%{_libdir}/php/extensions/no-debug-non-zts-20180731/imagick.so
+
+%exclude %{_prefix}/include/php/ext/imagick
 
 %post
 # config php.ini

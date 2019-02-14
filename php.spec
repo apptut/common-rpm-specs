@@ -10,6 +10,8 @@ Source1:        php.ini
 
 BuildRequires:  libxml2-devel,gcc,make,openssl-devel,zlib-devel,pcre-devel,libcurl-devel >= 7.15.5
 
+Requires:	zip, unzip
+
 
 %description
 基于php7官方版本制作的rpm包，该包未编译GD库，如有需要请自行安装扩展库。
